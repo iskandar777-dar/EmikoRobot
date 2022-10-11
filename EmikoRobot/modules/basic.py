@@ -9,7 +9,7 @@ from EmikoRobot.modules.disable import DisableAbleCommandHandler
 from telegram.ext import CallbackContext, run_async
 
 # Start Message
-def string(bot: Client, msg: Message, update: Update, context: CallbackContext):
+def string(update: Update, context: CallbackContext, bot: Client, msg: Message, update: Update, context: CallbackContext):
     args = context.args
     user = bot.get_me()
     mention = user.mention
