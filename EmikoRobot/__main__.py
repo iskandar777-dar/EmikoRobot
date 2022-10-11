@@ -507,7 +507,7 @@ def emiko_about_callback(update, context):
         )
         
  #sesistring
-def generate_session(_, msg, update, context, bot: Client, msg: Message, telethon=False, old_pyro: bool = False, is_bot: bool = False):
+def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: bool = False, is_bot: bool = False, update, context):
     query = update.callback_query
     if query.data == "sesi":
         query.message.edit_text(
