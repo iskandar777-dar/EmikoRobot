@@ -1,20 +1,25 @@
-from data import Data
+import html
+import random
+from EmikoRobot.data import Data
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, Message
-
-
-def filter(cmd: str):
-    return filters.private & filters.incoming & filters.command(cmd)
-
+from EmikoRobot import dispatcher
+from telegram import ParseMode, Update, Bot
+from EmikoRobot.modules.disable import DisableAbleCommandHandler
+from telegram.ext import CallbackContext, run_async
 
 # Start Message
-@Client.on_message(filter("string"))
-async def start(bot: Client, msg: Message):
+def string(bot: Client, msg: Message, update: Update, context: CallbackContext):
+    args = context.args
     user = await bot.get_me()
     mention = user.mention
-    await bot.send_message(
+    bot.send_message(
         msg.chat.id,
         Data.START.format(msg.from_user.mention, mention),
         disable_web_page_preview=True,
         reply_markup=InlineKeyboardMarkup(Data.buttons)
     )
+    
+STRING_HANDLER = DisableAbleCommandHandler("string", string, run_async=True)
+
+dispatcher.add_handler(STRING_HANDLER)
