@@ -29,19 +29,19 @@ def _callbacks(bot: Client, callback_query: CallbackQuery):
         try:
             if query == "pyrogram":
                 callback_query.answer("» ᴛʜᴇ ᴩʏʀᴏɢʀᴀᴍ ᴠ2 sᴛʀɪɴɢ sᴇssɪᴏɴ ᴡɪʟʟ ᴏɴʟʏ ᴡᴏʀᴋ ɪɴ ᴛʜᴇ ʙᴏᴛ's ᴡʜɪᴄʜ ᴀʀᴇ ᴜᴩɢʀᴀᴅᴇᴅ ᴀᴛ ᴩʏʀᴏɢʀᴀᴍ ᴠ2 !", show_alert=True)
-                generate_session(bot, callback_query.message)
+                generate(bot, callback_query.message)
             elif query == "pyrogram1":
                 callback_query.answer()
-                generate_session(bot, callback_query.message, old_pyro=True)
+                generate(bot, callback_query.message, old_pyro=True)
             elif query == "pyrogram_bot":
                 callback_query.answer("» ᴛʜᴇ sᴇssɪᴏɴ ɢᴇɴᴇʀᴀᴛᴇᴅ ᴡɪʟʟ ʙᴇ ᴏғ ᴩʏʀᴏɢʀᴀᴍ ᴠ2.", show_alert=True)
-                generate_session(bot, callback_query.message, is_bot=True)
+                generate(bot, callback_query.message, is_bot=True)
             elif query == "telethon_bot":
                 callback_query.answer()
-                generate_session(bot, callback_query.message, telethon=True, is_bot=True)
+                generate(bot, callback_query.message, telethon=True, is_bot=True)
             elif query == "telethon":
                 callback_query.answer()
-                generate_session(bot, callback_query.message, telethon=True)
+                generate(bot, callback_query.message, telethon=True)
         except Exception as e:
             print(traceback.format_exc())
             print(e)
