@@ -1,7 +1,7 @@
-import env
+import EmikoRobot
 import logging
 from pyrogram import Client, idle
-from pyromod import listen  # type: ignore
+from pyrogram import listen  # type: ignore
 from pyrogram.errors import ApiIdInvalid, ApiIdPublishedFlood, AccessTokenInvalid
 
 logging.basicConfig(
@@ -10,11 +10,11 @@ logging.basicConfig(
 
 app = Client(
     "bot",
-    api_id=env.API_ID,
-    api_hash=env.API_HASH,
-    bot_token=env.BOT_TOKEN,
+    api_id=EmikoRobot.API_ID,
+    api_hash=EmikoRobot.API_HASH,
+    bot_token=EmikoRobot.BOT_TOKEN,
     in_memory=True,
-    plugins=dict(root="StringGenBot"),
+    plugins=dict(root="EmikoRobot"),
 )
 
 
