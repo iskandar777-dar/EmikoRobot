@@ -393,7 +393,6 @@ def help_button(update, context):
         
  #sesistring
 def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: bool = False, is_bot: bool = False):
-    query = update.callback_query
     if query.data == "sesi":
         query.message.edit_text(
         text=f"**๏ Pilih String Yang Kamu mau :**",
