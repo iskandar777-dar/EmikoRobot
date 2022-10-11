@@ -31,39 +31,6 @@ from EmikoRobot import (
     updater,
 )
 
-from EmikoRobot.db import  users_sql
-from pyrogram.types import Message
-from telethon import TelegramClient
-from pyrogram import Client, filters
-from pyrogram import Client as Client1
-from asyncio.exceptions import TimeoutError
-from telethon.sessions import StringSession
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.errors import (
-    ApiIdInvalid,
-    PhoneNumberInvalid,
-    PhoneCodeInvalid,
-    PhoneCodeExpired,
-    SessionPasswordNeeded,
-    PasswordHashInvalid
-)
-from pyrogram.errors import (
-    ApiIdInvalid as ApiIdInvalid1,
-    PhoneNumberInvalid as PhoneNumberInvalid1,
-    PhoneCodeInvalid as PhoneCodeInvalid1,
-    PhoneCodeExpired as PhoneCodeExpired1,
-    SessionPasswordNeeded as SessionPasswordNeeded1,
-    PasswordHashInvalid as PasswordHashInvalid1
-)
-from telethon.errors import (
-    ApiIdInvalidError,
-    PhoneNumberInvalidError,
-    PhoneCodeInvalidError,
-    PhoneCodeExpiredError,
-    SessionPasswordNeededError,
-    PasswordHashInvalidError
-)
-
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from EmikoRobot.modules import ALL_MODULES
@@ -126,11 +93,7 @@ PM_START_TEXT = """
 
 buttons = [
     [
-        InlineKeyboardButton(
-            text="➗ Generate String ➗", callback_data="sesi"),
-    ],
-    [
-        InlineKeyboardButton(text=f"About {dispatcher.bot.first_name}", callback_data="emiko_"),
+        InlineKeyboardButton(text=f"➗ About {dispatcher.bot.first_name} ➗", callback_data="emiko_"),
     ],
     [
         InlineKeyboardButton(text="Help Manage", callback_data="help_back"),
@@ -390,126 +353,6 @@ def help_button(update, context):
 
     except BadRequest:
         pass
-        
- #sesistring
-def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: bool = False, is_bot: bool = False):
-    if query.data == "sesi":
-        query.message.edit_text(
-        text=f"**๏ Pilih String Yang Kamu mau :**",
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=False,)
-        reply_markup=InlineKeyboardMarkup[
-        [
-            InlineKeyboardButton("ᴩʏʀᴏɢʀᴀᴍ", callback_data="pyrogram"),
-        ],
-        [
-            InlineKeyboardButton("ᴛᴇʟᴇᴛʜᴏɴ", callback_data="telethon"),
-        ],
-        ]
-    elif query.data == "telethon":
-        query.message.edit_text(
-        ty = "ᴛᴇʟᴇᴛʜᴏɴ",
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=False )
-    
-    elif query.data == "pyrogram":
-        query.message.edit_text(
-        ty = "ᴩʏʀᴏɢʀᴀᴍ", 
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=False )
-    msg.reply(f"ᴍᴇɴᴄᴏʙᴀ ᴍᴇᴍᴜʟᴀɪ **{ty}** sᴇssɪᴏɴ ɢᴇɴᴇʀᴀᴛᴏʀ...")
-    user_id = msg.chat.id
-    api_id_msg =   bot.ask(user_id, "ᴍᴇᴍᴘᴇʀᴏsᴇs sᴛʀɪɴɢ...\n\nᴘᴀsᴛᴇ **ᴀᴘɪ_ɪᴅ** ᴅɪʙᴀᴡᴀʜ.", filters=filters.text)
-    if   cancelled(api_id_msg):
-        return
-    try:
-        api_id = int(api_id_msg.text)
-    except ValueError:
-        api_id_msg.reply("**ᴀᴘɪ_ɪᴅ** ʜᴀʀᴜs ʙᴇʀᴜᴘᴀ ᴀɴɢᴋᴀ, ᴍᴇᴍᴜʟᴀɪ ᴜʟᴀɴɢ ᴍᴇᴍʙᴜᴀᴛ sᴛʀɪɴɢ.", quote=True, reply_markup=InlineKeyboardMarkup([InlineKeyboardButton(text=="ɢᴇɴᴇʀᴀᴛᴇ ʟᴀɢɪ", callback_data=="sesi")]),)
-    api_hash_msg =   bot.ask(user_id, "ᴘᴀsᴛᴇ **ᴀᴘɪ_ʜᴀsʜ** ᴅɪʙᴀᴡᴀʜ", filters=filters.text)
-    if   cancelled(api_hash_msg):
-        return
-    api_hash = api_hash_msg.text
-    t = "ᴘᴀsᴛᴇ **ᴘʜᴏɴᴇ_ɴᴜᴍʙᴇʀ** ᴅᴇɴɢᴀɴ ᴋᴏᴅᴇ ɴᴇɢᴀʀᴀ. \nᴄᴏɴᴛᴏʜ : `+6287654321`'"
-    if   cancelled(phone_number_msg):
-        return
-    phone_number = phone_number_msg.text
-    msg.reply("ᴍᴇɴᴄᴏʙᴀ ᴍᴇɴɢɪʀɪᴍ ᴏᴛᴘ, ᴊᴀɴɢᴀɴ ʟᴜᴘᴀ ᴅɪᴘᴀsᴛᴇ ᴋᴀʟᴏ ᴜᴅᴀʜ ᴍᴀsᴜᴋ...")
-    if telethon:
-        client = TelegramClient(StringSession(), api_id, api_hash)
-    else:
-        client = Client(name="user", api_id=api_id, api_hash=api_hash, in_memory=True)
-    client.connect()
-    try:
-        code = None
-        if not is_bot:
-            if telethon:
-                code =   client.send_code_request(phone_number)
-            else:
-                code =   client.send_code(phone_number)
-    except (ApiIdInvalid, ApiIdInvalidError, ApiIdInvalid1): msg.reply("**ᴀᴩɪ_ɪᴅ** ᴅᴀɴ **ᴀᴩɪ_ʜᴀsʜ** ᴋᴀᴍᴜ ᴛɪᴅᴀᴋ ᴄᴏᴄᴏᴋ ᴅᴇɴɢᴀɴ ᴋᴏᴍʙɪɴᴀsɪ ᴛᴇʟᴇɢʀᴀᴍ ᴀᴘᴘ, \nᴜʟᴀɴɢɪ ᴅᴀʀɪ ᴀᴡᴀʟ ʟᴀɢɪ ᴀᴊᴀ.", reply_markup=InlineKeyboardMarkup([InlineKeyboardButton(text=="ɢᴇɴᴇʀᴀᴛᴇ ʟᴀɢɪ", callback_data=="sesi")]),)
-
-    except (PhoneNumberInvalid, PhoneNumberInvalidError, PhoneNumberInvalid1): msg.reply("ɴᴏᴍᴏʀ **ᴩʜᴏɴᴇ_ɴᴜᴍʙᴇʀ** ᴛɪᴅᴀᴋ ᴛᴇʀᴅᴀꜰᴛᴀʀ ᴅɪᴛᴇʟᴇɢʀᴀᴍ.\n\nᴜʟᴀɴɢ ʟᴀɢɪ ᴄᴏʙᴀ.", reply_markup=InlineKeyboardMarkup([InlineKeyboardButton(text=="ɢᴇɴᴇʀᴀᴛᴇ ʟᴀɢɪ", callback_data=="sesi")]),)
-    client.connect()
-    try:
-        phone_code_msg = None
-        if not is_bot:
-            phone_code_msg =   bot.ask(user_id, "ᴘᴀsᴛᴇ **ᴏᴛᴩ** ʏᴀɴɢ ᴜᴅᴀʜ ᴅɪᴛᴇʀɪᴍᴀ ᴅɪʙᴀᴡᴀʜ.\nᴊɪᴋᴀ ᴏᴛᴩ sᴇᴘᴇʀᴛɪ  `12345`, \nɴᴀɴᴛɪ ᴋɪʀɪᴍɴʏᴀ ᴅɪʙᴇʀɪ sᴘᴀsɪ ᴋᴀʏᴀ ɢɪɴɪ `1 2 3 4 5`.", filters=filters.text, timeout=600)
-            if   cancelled(phone_code_msg):
-                return
-    except TimeoutError: msg.reply("ᴡᴀᴋᴛᴜ ʜᴀʙɪs.\n\nᴜʟᴀɴɢ ᴋᴇᴍʙᴀʟɪ ʟᴀɢɪ ᴀᴊᴀ.", reply_markup=InlineKeyboardMarkup([InlineKeyboardButton(text=="ɢᴇɴᴇʀᴀᴛᴇ ʟᴀɢɪ", callback_data=="sesi")]),)
-    
-    if not is_bot:
-        phone_code = phone_code_msg.text.replace(" ", "")
-    try:
-        if telethon:
-            client.sign_in(phone_number, phone_code, password=None)
-        else:
-            client.sign_in(phone_number, code.phone_code_hash, phone_code)
-    except (PhoneCodeInvalid, PhoneCodeInvalidError, PhoneCodeInvalid1): msg.reply("ᴏᴛᴘ **sᴀʟᴀʜ.**\n\nᴜʟᴀɴɢ ʟᴀɢɪ ᴀᴊᴀ.", reply_markup=InlineKeyboardMarkup([InlineKeyboardButton(text=="ɢᴇɴᴇʀᴀᴛᴇ ʟᴀɢɪ", callback_data=="sesi")]),)
-    except (PhoneCodeExpired, PhoneCodeExpiredError, PhoneCodeExpired1): msg.reply("ᴏᴛᴘ **ᴋᴀᴅᴀʟᴜᴀʀsᴀ**\n\nᴜʟᴀɴɢ ʟᴀɢɪ ᴀᴊᴀ.", reply_markup=InlineKeyboardMarkup([InlineKeyboardButton(text=="ɢᴇɴᴇʀᴀᴛᴇ ʟᴀɢɪ", callback_data=="sesi")]),)
-    except (SessionPasswordNeeded, SessionPasswordNeededError, SessionPasswordNeeded1): client.connect()
-    try:
-        two_step_msg =   bot.ask(user_id, "ᴘᴀsᴛᴇ **ᴠᴇʀɪꜰɪᴋᴀsɪ ᴅᴜᴀ ʟᴀɴɢᴋᴀʜ** ᴩᴀssᴡᴏʀᴅ ᴅɪʙᴀᴡᴀʜ.", filters=filters.text, timeout=300)
-    except TimeoutError: msg.reply("ᴡᴀᴋᴛᴜ ʜᴀʙɪs.\n\nᴜʟᴀɴɢ ʟᴀɢɪ ᴀᴊᴀ.", reply_markup=InlineKeyboardMarkup([InlineKeyboardButton(text=="ɢᴇɴᴇʀᴀᴛᴇ ʟᴀɢɪ", callback_data=="sesi")]),)
-    try:
-        password = two_step_msg.text
-        if  telethon:
-            client.sign_in(password=password)
-        else:
-            client.check_password(password=password)
-        if  cancelled(api_id_msg):
-            return
-    except (PasswordHashInvalid, PasswordHashInvalidError, PasswordHashInvalid1):
-        two_step_msg.reply("ᴩᴀssᴡᴏʀᴅ ᴅɪʙᴀᴡᴀʜ.\n\nᴜʟᴀɴɢ ʟᴀɢɪ ᴀᴊᴀ.", quote=True, reply_markup=InlineKeyboardMarkup([InlineKeyboardButton(text=="ɢᴇɴᴇʀᴀᴛᴇ ʟᴀɢɪ", callback_data=="sesi")]),)
-    if telethon:
-        string_session = client.session.save()
-    else:
-        string_session =   client.export_session_string()
-    text = f"**sᴇʟᴀᴍᴀᴛ, {ty} sᴛʀɪɴɢ sᴇssɪᴏɴ** \n\n`{string_session}` \n\n**ɢᴇɴᴇʀᴀᴛᴇᴅ ʙʏ :** @someddarbot\n **ɴᴏᴛᴇ :** ɢᴜɴᴀᴋᴀɴ ᴅᴇɴɢᴀɴ ʙɪᴊᴀᴋ ᴅᴀɴ ᴊᴀɴɢᴀɴ ʟᴜᴘᴀ ᴊᴏɪɴ @somedsupport"
-    client.connect()
-    try:
-        if not is_bot:
-            client.send_message("me", text)
-        else:
-            bot.send_message(msg.chat.id, text)
-    except KeyError:
-        pass
-    client.disconnect()
-    bot.send_message(msg.chat.id, "ʙᴇʀʜᴀsɪʟ ᴍᴇᴍʙᴜᴀᴛ {} sᴛʀɪɴɢ sᴇssɪᴏɴ.\n\nᴊᴀɴɢᴀɴ ʟᴜᴘᴀ ᴄᴇᴋ ᴘᴇsᴀɴ ᴛᴇʀsɪᴍᴘᴀɴ ᴀᴛᴀᴜ sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇ ᴜɴᴛᴜᴋ ᴍᴇʟɪʜᴀᴛ sᴛʀɪɴɢ sᴇssɪᴏɴ! \n\n**sᴛʀɪɴɢ ɢᴇɴᴇʀᴀᴛᴏʀ ʙᴏᴛ ʙʏ** @kenapatagdar".format("ᴛᴇʟᴇᴛʜᴏɴ" if telethon else "ᴩʏʀᴏɢʀᴀᴍ"))
-
-
-def cancelled(msg):
-    if "/cancel" in msg.text:
-        msg.reply("**ᴍᴇᴍʙᴀᴛᴀʟᴋᴀɴ ᴘʀᴏsᴇs ᴘᴇᴍʙᴜᴀᴛᴀɴ sᴛʀɪɴɢ!**",reply_markup=InlineKeyboardMarkup([InlineKeyboardButton(text=="ɢᴇɴᴇʀᴀᴛᴇ ʟᴀɢɪ", callback_data=="sesi")]),)
-    if "/restart" in msg.text:
-        msg.reply("**sᴜᴋsᴇs ᴍᴇʀᴇsᴛᴀʀ ʙᴏᴛ!**", quote=True, reply_markup=InlineKeyboardMarkup([InlineKeyboardButton(text=="ɢᴇɴᴇʀᴀᴛᴇ ʟᴀɢɪ", callback_data=="sesi")]),)
-        pass
-    if msg.text.startswith("/"):  # Bot Commands
-        msg.reply("**ᴍᴇᴍʙᴀᴛᴀʟᴋᴀɴ ᴘʀᴏsᴇs ʙᴇʀᴊᴀʟᴀɴ**", quote=True)
-        return True
-    else:
-        return False
     
 def emiko_about_callback(update, context):
     query = update.callback_query
