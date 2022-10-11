@@ -11,7 +11,7 @@ from telegram.ext import CallbackContext, run_async
 # Start Message
 def string(bot: Client, msg: Message, update: Update, context: CallbackContext):
     args = context.args
-    user = await bot.get_me()
+    user = bot.get_me()
     mention = user.mention
     bot.send_message(
         msg.chat.id,
