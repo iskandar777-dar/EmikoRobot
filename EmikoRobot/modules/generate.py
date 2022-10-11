@@ -195,7 +195,7 @@ def cancelled(msg):
         return False
         
         
-GENERATE_SESSION_HANDLER = DisableAbleCommandHandler("generate", generate, run_async=True)
+GENERATE_SESSION_HANDLER = DisableAbleCommandHandler("generate_session", generate, run_async=True)
 CANCELLED_HANDLER = DisableAbleCommandHandler("cancelled", cancelled, run_async=True)
 
 dispatcher.add_handler(GENERATE_SESSION_HANDLER)
