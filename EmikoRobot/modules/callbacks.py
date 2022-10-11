@@ -8,7 +8,7 @@ from EmikoRobot.generate import generate_session, ask_ques, buttons_ques
 # Callbacks
 @Client.on_callback_query()
 def _callbacks(bot: Client, callback_query: CallbackQuery):
-    user = await bot.get_me()
+    user = bot.get_me()
     # user_id = callback_query.from_user.id
     mention = user.mention
     query = callback_query.data.lower()
