@@ -1,9 +1,7 @@
-from EmikoRobot import config
+from EmikoRobot.config import DB_URL
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
-
-DB_URL = config.SQLALCHEMY_DATABASE_URI
  
 def start() -> scoped_session:
     engine = create_engine(DB_URL)
