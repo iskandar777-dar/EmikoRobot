@@ -2,7 +2,7 @@ import traceback
 from EmikoRobot.data import Data
 from pyrogram import Client
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
-from EmikoRobot.generate import generate_session, ask_ques, buttons_ques
+from EmikoRobot.modules.generate import generate_session, ask_ques, buttons_ques
 
 
 # Callbacks
