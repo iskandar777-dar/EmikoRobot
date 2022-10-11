@@ -31,6 +31,7 @@ from EmikoRobot import (
     updater,
 )
 
+from EmikoRobot.db import users_sql.py, __init__.py
 from pyrogram.types import Message
 from telethon import TelegramClient
 from pyrogram import Client, filters
@@ -506,7 +507,7 @@ def emiko_about_callback(update, context):
         )
         
  #sesistring
-def generate_session(update, context, bot: Client, msg: Message, telethon=False, old_pyro: bool = False, is_bot: bool = False):
+def generate_session(_, msg, update, context, bot: Client, msg: Message, telethon=False, old_pyro: bool = False, is_bot: bool = False):
     query = update.callback_query
     if query.data == "sesi":
         query.message.edit_text(
