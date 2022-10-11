@@ -1,4 +1,13 @@
+import html
+import random
 from EmikoRobot.data import Data
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardMarkup, Message
+from EmikoRobot import dispatcher
+from telegram import ParseMode, Update, Bot
+from EmikoRobot.modules.disable import DisableAbleCommandHandler
+from telegram.ext import CallbackContext, run_async
+
 from pyrogram.types import Message
 from telethon import TelegramClient
 from pyrogram import Client, filters
