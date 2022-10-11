@@ -1,5 +1,5 @@
 from sqlalchemy import Column, BigInteger
-from StringGenBot.db import BASE, SESSION
+from EmikoRobot.modules.db import BASE, SESSION
 
 
 class Users(BASE):
