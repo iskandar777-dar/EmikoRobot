@@ -62,7 +62,7 @@ def main(_, msg):
     msg.reply(ask_ques, reply_markup=InlineKeyboardMarkup(buttons_ques))
 
 
-def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: bool = False, is_bot: bool = False):
+def generate(update: Update, context: CallbackContext, bot: Client, msg: Message, telethon=False, old_pyro: bool = False, is_bot: bool = False):
     if telethon:
         ty = "ᴛᴇʟᴇᴛʜᴏɴ"
     else:
@@ -193,5 +193,16 @@ def cancelled(msg):
         return True
     else:
         return False
-        
+    
+    
+    GENERATE_HANDLER = DisableAbleCommandHandler("generate", generate, run_async=True)
+    
+    dispatcher.add_handler(GENERATE_HANDLER)
+    
+    __mod_name__ = "String"
+    __command_list__ = [
+    "generate", "string" ]
+    __handlers__ = [ GENERATE_HANDLER ]
+    
+    
      
