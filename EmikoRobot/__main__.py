@@ -809,17 +809,12 @@ def main():
     source_callback_handler = CallbackQueryHandler(
         Source_about_callback, pattern=r"source_", run_async=True
     )
-    
-    sesi_handler = CallbackQueryHandler(
-        generate_session, pattern=r"sesi", run_async=True
-    )
 
     donate_handler = CommandHandler("donate", donate, run_async=True)
     migrate_handler = MessageHandler(
         Filters.status_update.migrate, migrate_chats, run_async=True
     )
 
-    dispatcher.add_handler(sesi_handler)
     dispatcher.add_handler(test_handler)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
