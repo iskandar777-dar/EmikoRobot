@@ -31,7 +31,7 @@ from EmikoRobot import (
     updater,
 )
 
-from EmikoRobot.db import users_sql.py, __init__.py
+from EmikoRobot.EmikoRobot.db import users_sql.py, __init__.py
 from pyrogram.types import Message
 from telethon import TelegramClient
 from pyrogram import Client, filters
