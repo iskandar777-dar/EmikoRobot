@@ -2,8 +2,8 @@ from pyrogram.types import Message
 from pyrogram import Client, filters
 
 from EmikoRobot import OWNER_ID
-from EmikoRobot.db import SESSION
-from EmikoRobot.db.users_sql import Users, num_users
+from EmikoRobot.modules.db import SESSION
+from EmikoRobot.modules.db.users_sql import Users, num_users
 
 def users_sql(_, msg: Message):
     if msg.from_user:
